@@ -1,0 +1,31 @@
+.containerNotFoundPage {
+    text-align: center;
+    margin-top: 24px;
+}
+.title,
+.text {
+    /* text-align: center; */
+    margin-bottom: 16px;
+}
+
+
+.linkGoBack {
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 10px;
+    font-weight: bold;
+    background-color: #ff7f08;
+    color: #fff;
+    padding: 8px 20px;
+
+}
+
+
+
+.linkGoBack:hover,
+.linkGoBack:focus
+ {
+    background-color: #c6e327;
+
+}

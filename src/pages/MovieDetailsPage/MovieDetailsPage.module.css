@@ -1,0 +1,79 @@
+
+.containerDetalis {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+.btnGoBack {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    padding: 8px 20px;
+    margin-bottom: 24px;
+
+    border-radius: 10px;
+    border:none;
+    background-color: #ff7f08;
+    color: #fff;
+  
+    transition: box-shadow 250ms linear;
+}
+    
+.btnGoBack:hover,
+.btnGoBack:focus {
+    background-color:#c6e327;
+}
+.details {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+
+}
+
+.imgDetalis {
+    width: 250px;
+    height: 375px;
+    border-radius: 15px;
+}
+
+.title {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.overview {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.text {
+    margin-bottom: 16px;
+}
+
+
+.linkReview, 
+.linkCast {
+    display: inline-block;
+    border-radius: 10px;
+    font-weight: bold;
+    background-color: #ff7f08;
+    color: #fff;
+}
+
+.linkReview {
+    padding: 8px 20px;
+   
+}
+.linkCast {
+    padding: 8px 34px;
+    margin-right: 30px;
+}
+
+.linkReview:hover,
+.linkReview:focus,
+.linkCast:hover,
+.linkCast:focus
+ {
+    background-color: #c6e327;
+    
+}

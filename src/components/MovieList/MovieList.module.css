@@ -1,0 +1,16 @@
+.item {
+    display: block;
+    
+    font-size: 18px;
+    background-color: rgb(42, 42, 42);
+    border-radius: 14px;
+    margin-bottom: 6px;
+    padding: 16px;
+}
+
+ .item:hover,
+ .item:focus {
+     
+     color: #c6e327;
+     /* text-decoration: underline; */
+ }

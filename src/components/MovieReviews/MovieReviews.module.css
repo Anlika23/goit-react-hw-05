@@ -1,0 +1,31 @@
+.listReviews {
+    margin-top: 12px;
+}
+
+.itemReviews {
+    font-size: 14px;
+    padding: 6px;
+    background-color:rgb(42, 42, 42);
+    border-radius: 14px;
+    margin-bottom: 12px;
+    border: 1px solid #c6e327;
+    
+}
+ .itemReviews:not(:last-child) {
+    margin-bottom: 20px;
+}
+.spanReviews {
+    color: #ff7f08;
+}
+.text {
+    /* color: #888888; */
+    margin-top: 6px;
+}
+.textNoReviews {
+    margin-top: 12px;
+    font-size: 26px;
+}
+
+
+
+

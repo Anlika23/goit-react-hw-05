@@ -1,0 +1,26 @@
+.details {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+
+}
+
+.imgDetalis {
+    width: 250px;
+    height: 375px;
+    border-radius: 15px;
+}
+
+.title {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.overview {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.text {
+    margin-bottom: 16px;
+}
