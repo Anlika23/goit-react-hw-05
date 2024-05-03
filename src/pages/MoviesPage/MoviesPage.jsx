@@ -1,70 +1,46 @@
 import { useState, useEffect } from 'react';
-import { CgSearch } from "react-icons/cg";
+import { useSearchParams } from 'react-router-dom';
+import { getMoviesBySearch } from '../../movies-api';
 import MovieList from '../../components/MovieList/MovieList';
-import { getMoviesBySearch } from '../../movies-api'; 
-import { useSearchParams } from 'react-router-dom'; // Додали імпорт для useSearchParams
-
-import css from './MoviesPage.module.css';
+import MovieSearchForm from '../../components/MovieSearchForm/MovieSearchForm';
 
 export default function MoviesPage() {
-  const [query, setQuery] = useState('');
-  const [searchedMovies, setSearchedMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams(); 
+  const [error, setError] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") ?? "";
+
+  const changeQuery = (newFilter) => {
+    setSearchParams({ query: newFilter });
+  };
 
   useEffect(() => {
-    const handleSearch = async () => {
+    if (!query) {
+      setMovies([]);
+      return;
+    }
+
+    async function fetchMoviesPage() {
       try {
         setLoading(true);
-        const response = await getMoviesBySearch(query); 
-        setSearchedMovies(response.results);
+        const data = await getMoviesBySearch(query);
+        setMovies(data);
       } catch (error) {
-        console.error('Error fetching movies:', error);
+        setError(true);
       } finally {
         setLoading(false);
       }
-    };
-
-    if (query !== '') {
-      handleSearch();
     }
-  }, [query]);
 
-  useEffect(() => {
-    if (searchParams.has('query')) {
-      setQuery(searchParams.get('query'));
-    }
-  }, [searchParams]);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    setSearchParams({ query });
-  };
-
-  const handleInputChange = e => {
-    setQuery(e.target.value);
-  };
+    fetchMoviesPage();
+  }, [query, setSearchParams]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          className={css.form}
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          placeholder="Enter movie title"
-          autoFocus
-        />
-        <button className={css.btmSearch} type="submit"><CgSearch />Search</button>
-      </form>
-      {loading ? ( 
-        <b>Loading...</b>
-      ) : (
-        searchedMovies.length > 0 && <MovieList movies={searchedMovies} />
-      )}
-    </div>
+    <>
+      <MovieSearchForm value={query} onSubmit={changeQuery} />
+      {loading ? <p>Loading...</p> : movies.length > 0 && <MovieList movies={movies} />}
+      {error && <p>Error fetching movies. Please try again later.</p>}
+    </>
   );
 }
-
-

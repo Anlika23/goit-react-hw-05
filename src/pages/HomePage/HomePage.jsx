@@ -16,7 +16,7 @@ export default function HomePage() {
         const trendingMoviesData = await getTrendingMovies(); 
         setMovies(trendingMoviesData.results);
       } catch (error) {
-        console.error('Error fetching trending movies:', error);
+    
         setError('Error fetching trending movies');
       } finally {
         setLoading(false);
