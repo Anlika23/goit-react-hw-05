@@ -9,7 +9,7 @@ export default function MovieList({ movies }) {
     <ul>
       {movies.map(({ id, title, release_date }) => (
         <li key={id} className={css.item}>
-          <Link to={{ pathname: `/movies/${id}`, state: { from: location } }}>
+          <Link to={`/movies/${id}`} state={{ from: location }}>
             {title} ({release_date ? release_date.slice(0, 4) : 'Unknown'})
           </Link>
         </li>

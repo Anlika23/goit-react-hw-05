@@ -2,62 +2,52 @@ import { useState, useEffect } from 'react';
 import { CgSearch } from "react-icons/cg";
 import MovieList from '../../components/MovieList/MovieList';
 import { getMoviesBySearch } from '../../movies-api'; 
+import { useSearchParams } from 'react-router-dom'; // Додали імпорт для useSearchParams
 
 import css from './MoviesPage.module.css';
 
-const MoviesPage = () => {
+export default function MoviesPage() {
   const [query, setQuery] = useState('');
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams(); 
 
   useEffect(() => {
-    const storedMovies = localStorage.getItem('searchedMovies');
-    if (storedMovies) {
-      setSearchedMovies(JSON.parse(storedMovies));
+    const handleSearch = async () => {
+      try {
+        setLoading(true);
+        const response = await getMoviesBySearch(query); 
+        setSearchedMovies(response.results);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (query !== '') {
+      handleSearch();
     }
-  }, []); 
+  }, [query]);
 
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.clear();
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
-  const saveToLocalStorage = movies => {
-    localStorage.setItem('searchedMovies', JSON.stringify(movies));
-  };
-
-  const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      const response = await getMoviesBySearch(query); 
-      setSearchedMovies(response.results);
-      saveToLocalStorage(response.results);
-    } catch (error) {
-      console.error('Error fetching movies:', error);
-    } finally {
-      setLoading(false);
+    if (searchParams.has('query')) {
+      setQuery(searchParams.get('query'));
     }
+  }, [searchParams]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setSearchParams({ query });
   };
 
   const handleInputChange = e => {
     setQuery(e.target.value);
   };
 
-  const handleFormSubmit = e => {
-    e.preventDefault();
-    handleSubmit();
-  };
-
   return (
     <div>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           className={css.form}
           type="text"
@@ -75,6 +65,6 @@ const MoviesPage = () => {
       )}
     </div>
   );
-};
+}
 
-export default MoviesPage;
+

@@ -6,19 +6,19 @@ import css from "./MovieReviews.module.css";
 export default function MovieReviews() {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchMovieReviews() {
       try {
-        setIsLoading(true);
+        setLoading(true);
         const data = await getReviewsById(movieId);
         setReviews(data);
       } catch (error) {
         setError(true);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     }
     fetchMovieReviews();
@@ -26,7 +26,7 @@ export default function MovieReviews() {
 
   return (
     <>
-      {isLoading && <p>Loading...</p>}
+      {loading && <p>Loading...</p>}
       {error && <p>Error...</p>}
 
       {reviews && reviews.results.length > 0 ? (

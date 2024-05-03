@@ -6,23 +6,25 @@ import css from "./MovieDetailsPage.module.css";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [movie, setMovie] = useState(null);
 
   const location = useLocation();
-  const backLinkURLRef = useRef(location.state ?? "/movies");
+  const backLinkURLRef = useRef(location?.state?.from ?? "/movies");
+
+  // console.log(" Go back:", backLinkURLRef);
 
   useEffect(() => {
     async function fetchMovieInfo() {
       try {
-        setIsLoading(true);
+        setLoading(true);
         const data = await gethMovieDetailsById(movieId);
         setMovie(data);
       } catch (error) {
         setError(true);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     }
     fetchMovieInfo();
@@ -35,7 +37,7 @@ export default function MovieDetailsPage() {
           Go back
         </Link>
 
-        {isLoading && <p>Loading...</p>}
+        {loading && <p>Loading...</p>}
         {error && <p>Error...</p>}
 
         {movie && <MovieCard movie={movie} />}
@@ -47,9 +49,9 @@ export default function MovieDetailsPage() {
           <Link to="cast" className={css.linkCast}>Cast</Link>
           <Link to="reviews" className={css.linkReview}>Reviews</Link>
         
-          <Suspense fallback={<p>Loading additional information...</p>}>
+        <Suspense fallback={<p>Loading additional information...</p>}>
           <Outlet />
-          </Suspense>
+        </Suspense>
         </div>
     </div>
   );
